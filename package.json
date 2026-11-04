@@ -1,0 +1,21 @@
+{
+  "name": "dsh-msg-resize",
+  "version": "2.6.0",
+  "description": "DSH 消息区自由缩放：拖动右上角把手把对话区搬到任意位置，拖动右下角把手改大小；位置和尺寸自动记住。界面/皮肤主题类 UI 插件。",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": ["@deepseek-ai/dsh-client-ui-slots"],
+      "platform": "web"
+    }
+  },
+  "keywords": ["dsh", "dsh-plugin", "cordis", "ui", "theme", "skin", "resizable", "window", "chat"],
+  "files": ["lib", "README.md", "LICENSE"],
+  "license": "MIT"
+}
