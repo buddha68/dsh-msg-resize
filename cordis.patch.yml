@@ -1,0 +1,4 @@
+# dsh-msg-resize 的默认装载条目：安装时由 `dsh plugin add` 或手动 patch 引用。
+- insert:
+    - id: msg-resize
+      name: 'dsh-msg-resize'

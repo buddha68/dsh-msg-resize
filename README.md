@@ -1,5 +1,9 @@
 # DSH 消息区自由缩放 · 把对话区变成你自己的浮窗
 
+[![license](assets/badges/license.svg)](LICENSE)
+[![release](assets/badges/version.svg)](https://github.com/buddha68/dsh-msg-resize/releases)
+[![platform](assets/badges/platform.svg)](#兼容性--已知限制)
+
 > 拖动改大小、拖动搬位置，位置和尺寸自动记住 —— DSH（DeepSeek Harness）的界面 / 皮肤主题类小插件。
 
 ![默认形态：居中的浮窗](assets/screenshot-1.png)
@@ -26,10 +30,20 @@ DSH 的对话区默认是一条居中、固定宽度的消息列，输入框跟�
 
 ## 安装
 
-DSH 插件以 Cordis 条目加载。本插件是**纯前端（Client）插件**，Host 半是空占位，不需要重启宿主即可热加载。
+> 插件 id 固定为 `msg-resize`，包名 `dsh-msg-resize`。只装你想用的那个 profile（网页版一般是 `web`，桌面版是 `desktop`）。
 
-1. 把仓库放到本机任意位置，例如 `D:\plugins\dsh-msg-resize`
-2. 链接到你想装的那个 profile 的 `node_modules`（Windows 用 junction，macOS/Linux 用 symlink）：
+### 方式 A：一行装（推荐，需要本机有 git）
+
+```bash
+dsh plugin --profile web add github:buddha68/dsh-msg-resize
+```
+
+装完重启一次 DSH（或等宿主重组合）。本包自带 `dsh.bundle` 清单与 `cordis.patch.yml`，安装后会自动挂上「右上移动 / 右下缩放」两个把手。
+
+### 方式 B：Release 压缩包（免 git）
+
+1. 到 [Releases](https://github.com/buddha68/dsh-msg-resize/releases) 下载 `dsh-msg-resize-2.6.0.zip`（或源码归档），解压到任意目录，例如 `D:\plugins\dsh-msg-resize`；
+2. 链接进 profile 的 `node_modules`（Windows 用 junction，macOS/Linux 用 symlink）：
 
 ```bat
 mklink /J "%DSH_HOME%\profiles\web\node_modules\dsh-msg-resize" "D:\plugins\dsh-msg-resize"
@@ -39,7 +53,7 @@ mklink /J "%DSH_HOME%\profiles\web\node_modules\dsh-msg-resize" "D:\plugins\dsh-
 ln -s /path/to/dsh-msg-resize "$DSH_HOME/profiles/web/node_modules/dsh-msg-resize"
 ```
 
-3. 在该 profile 的 `cordis.patch.yml` **末尾**追加：
+3. 在该 profile 的 `cordis.patch.yml` **末尾**追加（内容同仓库根的 `cordis.patch.yml`）：
 
 ```yaml
 - insert:
@@ -47,7 +61,15 @@ ln -s /path/to/dsh-msg-resize "$DSH_HOME/profiles/web/node_modules/dsh-msg-resiz
       name: 'dsh-msg-resize'
 ```
 
-4. 等宿主重组合（约 7–10 秒），或重启 DSH 一次。打开任意会话，右侧应出现一个浮窗和两个把手。
+4. 等宿主重组合（约 7–10 秒），或重启 DSH 一次。打开任意会话，应出现一个浮窗和两个把手。
+
+### 方式 C：克隆源码手动装
+
+```bash
+git clone https://github.com/buddha68/dsh-msg-resize /path/to/dsh-msg-resize
+```
+
+然后照着方式 B 的第 2–4 步做。
 
 > `DSH_HOME` 默认是 dsh 的数据目录（Windows 常见为 `F:\dsh-home` 或 `%USERPROFILE%\.dsh`）。
 > 只装 web profile 就只动 web 的 `cordis.patch.yml`，桌面版 profile 不受影响。
@@ -71,7 +93,7 @@ ln -s /path/to/dsh-msg-resize "$DSH_HOME/profiles/web/node_modules/dsh-msg-resiz
 
 ## 卸载
 
-1. 删掉 `cordis.patch.yml` 里那段 `- insert: … msg-resize`；
+1. 删掉 `cordis.patch.yml` 里那段 `- insert: … msg-resize`（用 `dsh plugin add` 装的，直接 `dsh plugin --profile web remove dsh-msg-resize`）；
 2. 删掉 `node_modules\dsh-msg-resize` 链接（若把仓库 clone 在别处，仓库本身也可以删）；
 3. 刷新页面。插件在 `localStorage` 只留一个键 `dshMsgResize.v2`，可顺手清掉。
 
@@ -87,13 +109,11 @@ ln -s /path/to/dsh-msg-resize "$DSH_HOME/profiles/web/node_modules/dsh-msg-resiz
 
 ## English (short)
 
-A tiny DSH UI plugin that turns the chat area into a draggable, resizable floating window:
-drag the ⤡ handle (bottom-right) to resize, drag the ⠿ handle (top-right) to move, double-click to reset.
-Position/size persist in `localStorage`; movement is clamped to the conversation pane.
+A DSH UI plugin that turns the chat area into a draggable, resizable floating window: drag the ⤡ handle (bottom-right) to resize, drag the ⠿ handle (top-right) to move, double-click to reset. Position and size persist in `localStorage`; movement is clamped to the conversation pane.
 
-Install: link the folder into `$DSH_HOME/profiles/<profile>/node_modules/dsh-msg-resize`,
-append the `- insert: - id: msg-resize / name: 'dsh-msg-resize'` block to that profile's `cordis.patch.yml`,
-then restart DSH (or wait for the host to recompose). Verified on DSH web 0.2.x.
+Install with `dsh plugin --profile web add github:buddha68/dsh-msg-resize`, or manually link the folder into
+`$DSH_HOME/profiles/<profile>/node_modules/dsh-msg-resize` and append the `msg-resize` insert block to that profile's
+`cordis.patch.yml`. Verified on DSH web 0.2.x.
 
 ## License
 
